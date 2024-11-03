@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Generator !!</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div class="outer-cont">
+
+    <div class="container">
+        <h1 class="title">🎶 HarmonyVerse 🎶</h1>
+        <form method="POST" action="/" enctype="multipart/form-data" class="form">
+            <label for="user_text">Enter the description of the music:</label>
+            <input type="text" id="user_text" name="user_text" required>
+
+            <label for="user_duration">Enter the duration of music in seconds:</label>
+            <input type="number" id="user_duration" name="user_duration" min="1" required>
+
+            <label for="genre">Select a genre:</label>
+            <select id="genre" name="genre">
+                <option>Classical</option>
+                <option>Jazz</option>
+                <option>Rock</option>
+                <option>Electronic</option>
+                <option>Pop</option>
+            </select>
+
+            <label for="mood">Select a mood:</label>
+            <select id="mood" name="mood">
+                <option>Happy</option>
+                <option>Sad</option>
+                <option>Energetic</option>
+                <option>Calm</option>
+            </select>
+
+            <button type="submit" class="submit-btn">Generate Music</button>
+        </form>
+
+        {% if music_file_url %}
+            <div class="music-player">
+                <h2>Generated Music</h2>
+                <audio controls>
+                    <source src="{{ music_file_url }}" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <a href="{{ url_for('download_file', filename=music_file_url.split('/')[-1]) }}" class="download-btn">
+                    Download Music
+                </a>
+            </div>
+        {% endif %}
+
+        
+    </div>
+    {% if generated_lyrics %}
+            <div class="generated-lyrics">
+                <h3>Generated Lyrics:</h3>
+                <p>{{ generated_lyrics }}</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,140 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Body Styling */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #6e45e2, #88d3ce);
+    animation: backgroundAnimation 10s infinite alternate;
+}
+
+/* Container */
+.container {
+    background-color: #ffffff;
+    padding: 2em;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    animation: fadeIn 2s;
+}
+
+/* Title Styling */
+.title {
+    font-size: 2rem;
+    color: #6e45e2;
+    margin-bottom: 1em;
+    animation: colorCycle 5s infinite alternate;
+}
+
+/* Form Styling */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+/* Labels */
+label {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 0.3em;
+    font-weight: bold;
+}
+
+/* Input Fields */
+input[type="text"],
+input[type="number"],
+select {
+    padding: 0.7em;
+    border: 2px solid #6e45e2;
+    border-radius: 5px;
+    outline: none;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+input:focus,
+select:focus {
+    border-color: #88d3ce;
+}
+
+/* Submit Button */
+.submit-btn {
+    padding: 0.8em 0;
+    background-color: #6e45e2;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #88d3ce;
+    transform: scale(1.05);
+}
+
+/* Animations */
+@keyframes backgroundAnimation {
+    0% {
+        background: linear-gradient(135deg, #6e45e2, #88d3ce);
+    }
+    100% {
+        background: linear-gradient(135deg, #88d3ce, #6e45e2);
+    }
+}
+
+@keyframes colorCycle {
+    0% {
+        color: #6e45e2;
+    }
+    100% {
+        color: #88d3ce;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.generated-lyrics {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    max-width: 50%;
+}
+
+.generated-lyrics h3 {
+    margin: 0;
+    color: #333;
+}
+
+.generated-lyrics p {
+    margin: 5px 0 0;
+    color: #555;
+    
+}
+.outer-cont{
+    display: flex;
+    justify-content: center;
+}

@@ -1,0 +1,54 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+flenv/
+# Flask-specific files
+instance/
+.env
+*.env
+*.ini
+*.cfg
+
+# Virtual environment
+venv/
+ENV/
+
+.venv/
+.pyvenv/
+venv.bak/
+
+# Flask cache and logs
+*.log
+*.pot
+*.pyc
+
+# Database files
+*.sqlite3
+*.db
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Jupyter Notebook Checkpoints (if any notebooks are used)
+.ipynb_checkpoints
+
+# Pytest and coverage
+.coverage
+*.cover
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+htmlcov/
+
+# Static files
+/static/*.map
+
+# IDE settings and project files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.iml
