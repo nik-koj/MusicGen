@@ -7,14 +7,11 @@ import os
 
 app = Flask(__name__)
 
-# Load the music generation model and processor
 processor = AutoProcessor.from_pretrained("facebook/musicgen-small")
 music_model = MusicgenForConditionalGeneration.from_pretrained("facebook/musicgen-small")
 
-# Create a Translator object
 translator = Translator()
 
-# Save generated files to a folder
 if not os.path.exists("static/generated"):
     os.makedirs("static/generated")
 
@@ -29,12 +26,10 @@ def index():
             genre = request.form["genre"]
             mood = request.form["mood"]
 
-            # Translate the parameters to English
             translated_genre = translator.translate(genre, src='ru', dest='en').text
             translated_mood = translator.translate(mood, src='ru', dest='en').text
             translated_text = translator.translate(user_text, src='ru', dest='en').text
 
-            # Generate music based on the translated prompt
             music_prompt = f"{translated_genre}, {translated_mood}, {translated_text}"
             tokens_per_second = 50
             max_length = user_duration * tokens_per_second
@@ -51,7 +46,7 @@ def index():
 
             music_file_url = url_for("static", filename=f"generated/{file_name}")
         except Exception as e:
-            return f"An error occurred: {e}"
+            return f"Обнаружена ошибка: {e}"
 
     return render_template("index.html", music_file_url=music_file_url)
 
