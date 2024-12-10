@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, url_for, send_file
 from transformers import AutoProcessor, MusicgenForConditionalGeneration, pipeline
 import scipy.io.wavfile
+from googletrans import Translator
 import numpy as np
 import os
 
@@ -10,33 +11,31 @@ app = Flask(__name__)
 processor = AutoProcessor.from_pretrained("facebook/musicgen-small")
 music_model = MusicgenForConditionalGeneration.from_pretrained("facebook/musicgen-small")
 
-# Load the lyrics generation pipeline
-lyrics_pipe = pipeline("text-generation", model="ECE1786-AG/lyrics-generator")
+# Create a Translator object
+translator = Translator()
 
 # Save generated files to a folder
 if not os.path.exists("static/generated"):
     os.makedirs("static/generated")
 
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     music_file_url = None
-    generated_lyrics = None  # Initialize lyrics variable
     if request.method == "POST":
-        user_text = request.form["user_text"]
-        user_duration = int(request.form["user_duration"])
-        genre = request.form["genre"]
-        mood = request.form["mood"]
+        try:
+            user_text = request.form["user_text"]
+            user_duration = int(request.form["user_duration"])
+            genre = request.form["genre"]
+            mood = request.form["mood"]
 
-        if user_text:
-            # Create a prompt for generating lyrics
-            prompt = f"Generate lyrics of a song based on these words: {genre}, {mood}, {user_text}"
-            
-            # Generate lyrics using the lyrics generation model
-            generated_lyrics = lyrics_pipe(prompt, max_length=500, num_return_sequences=1)[0]['generated_text']
-            generated_lyrics = generated_lyrics[len(user_text):]
+            # Translate the parameters to English
+            translated_genre = translator.translate(genre, src='ru', dest='en').text
+            translated_mood = translator.translate(mood, src='ru', dest='en').text
+            translated_text = translator.translate(user_text, src='ru', dest='en').text
 
-            # Generate music based on a different prompt
-            music_prompt = f"{genre}, {mood}, {user_text}"
+            # Generate music based on the translated prompt
+            music_prompt = f"{translated_genre}, {translated_mood}, {translated_text}"
             tokens_per_second = 50
             max_length = user_duration * tokens_per_second
 
@@ -51,8 +50,11 @@ def index():
             scipy.io.wavfile.write(wav_file_path, rate=sampling_rate, data=audio_waveform)
 
             music_file_url = url_for("static", filename=f"generated/{file_name}")
+        except Exception as e:
+            return f"An error occurred: {e}"
 
-    return render_template("index.html", music_file_url=music_file_url, generated_lyrics=generated_lyrics)
+    return render_template("index.html", music_file_url=music_file_url)
+
 
 @app.route("/download/<filename>")
 def download_file(filename):
